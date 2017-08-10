@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @article.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @article.body %>
+</p>
+
+<% if can? :update, @article %>
+	<%= link_to 'Edit', edit_article_path(@article) %> |
+<% end %>
+
+<h2>Previous Comments</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Body</th>
+      <th>User</th>
+      <th>Article</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @article.comments.each do |comment| %>
+      <tr>
+        <td><%= comment.title %></td>
+        <td><%= comment.body %></td>
+        <td><%= comment.user_id %></td>
+        <td><%= comment.article_id %></td>
+        <% if can? :update, comment %>
+        	<td><%= link_to 'Edit', edit_comment_path(comment) %></td>
+        <% end %>
+        <% if can? :destroy, comment %>
+        	<td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% @comment = Comment.new %>
+
+<% if user_signed_in? %>
+	<h2>Add Comment </h2>
+	<%= render '/comments/form' %>
+<% end %>
+
+<%= link_to 'Back', articles_path %>

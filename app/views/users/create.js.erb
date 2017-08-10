@@ -1,0 +1,9 @@
+// var formHandle = document.getElementById('new_user')
+<% if @user.valid? %>
+  $('#errorMsg').hide();
+	$('#notice').html("<span class='alert alert-success'> Successfully created user.</span>");
+	$('#new_user')[0].reset();
+	$('#userTable').html("<%= escape_javascript(render 'users') %>");
+<% else %>
+		$('#errorMsg').html("<%= escape_javascript(render 'errors')%>");
+<% end %>
